@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .text-container {
+            margin-top: 50px;
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 2px solid #333;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 300px;
+            overflow: hidden;
+        }
+        .text-page {
+            display: none;
+            font-size: 1.5em;
+            color: #333;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .song-message {
+            font-size: 1.2em;
+            color: #2e8b57;
+            margin-top: 50px;
+        }
+        .proposal {
+            font-size: 1.8em;
+            margin-top: 30px;
+            opacity: 0;
+            display: none;
+        }
+        .proposal-buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+        }
+        .heart {
+            font-size: 5em;
+            color: red;
+            opacity: 0;
+            transition: opacity 2s;
+            margin-top: 30px;
+        }
+        #birthday-video {
+            display: none;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #000;
+        }
+        .floating {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Text Pages Container -->
+    <div id="text-container" class="text-container">
+        <div id="page-1" class="text-page">
+            <p>Happy Birthday!</p>
+        </div>
+        <div id="page-2" class="text-page">
+            <p>May your day be filled with love, joy, and happiness.</p>
+        </div>
+        <div id="page-3" class="text-page">
+            <p>On this special day, I wish you all the best that life can offer.</p>
+        </div>
+        <div id="page-4" class="text-page">
+            <p>Thank you for being an amazing person. You deserve everything beautiful in this world!</p>
+        </div>
+        <div id="page-5" class="text-page">
+            <p>And... will you be mine forever?</p>
+        </div>
+    </div>
+
+    <!-- Song Message -->
+    <div id="song-message" class="song-message">
+        <p>Your song is now playing...</p>
+    </div>
+
+    <!-- Video for Birthday Song -->
+    <video id="birthday-video" autoplay controls>
+        <source src="Bol_do_na_zara.mp4" type="video/mp4">
+        Your browser does not support the video element.
+    </video>
+
+    <!-- Proposal -->
+    <div id="proposal" class="proposal">
+        <p>Will you be mine forever?</p>
+        <div class="proposal-buttons">
+            <button id="yes-button" class="btn">Yes</button>
+            <button id="no-button" class="btn floating" onclick="moveNoButton(event)">No</button>
+        </div>
+    </div>
+
+    <!-- Heart -->
+    <div id="heart" class="heart">❤️</div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 5;
+        const pageContainer = document.getElementById('text-container');
+
+        // Function to show the current page
+        function showPage(pageIndex) {
+            const pages = document.querySelectorAll('.text-page');
+            if (pageIndex < totalPages) {
+                pages[pageIndex].style.display = 'block';
+                setTimeout(() => {
+                    pages[pageIndex].style.opacity = 1;
+                }, 100);
+            }
+        }
+
+        // Next page handler
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+            // Play the video on the last page
+            if (currentPage === totalPages) {
+                document.getElementById('song-message').style.opacity = 1;
+                document.getElementById('birthday-video').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('proposal').style.display = 'block';
+                    document.getElementById('proposal').style.opacity = 1;
+                }, 2000);
+            }
+        }
+
+        // Show the first page after 2 seconds
+        setTimeout(() => {
+            showPage(currentPage);
+        }, 2000);
+
+        // Event listener for page turning
+        document.getElementById('text-container').addEventListener('click', nextPage);
+
+        // Move the "No" button randomly when clicked
+        function moveNoButton(event) {
+            event.preventDefault();
+            const noButton = event.target;
+            moveButtonRandomly(noButton);
+        }
+
+        // Function to move the "No" button randomly
+        function moveButtonRandomly(button) {
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            button.style.position = 'absolute';
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+
+        // When "Yes" is clicked, show the heart
+        document.getElementById('yes-button').addEventListener('click', () => {
+            document.getElementById('heart').style.opacity = 1;
+            document.getElementById('proposal').style.opacity = 0;
+        });
+    </script>
+</body>
+</html>
